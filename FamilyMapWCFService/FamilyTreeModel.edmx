@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FamilyTreeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tbl_Family">
+          <Key>
+            <PropertyRef Name="familyMemberId" />
+          </Key>
+          <Property Name="familyMemberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="suffix" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="firstName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="middleName" Type="varchar" MaxLength="20" />
+          <Property Name="lastName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="dob" Type="date" Nullable="false" />
+          <Property Name="gender" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="memberCategory" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tbl_familyRelation">
+          <Key>
+            <PropertyRef Name="familyRelationId" />
+          </Key>
+          <Property Name="familyRelationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="familyNo" Type="int" Nullable="false" />
+          <Property Name="familyMemId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_User">
+          <Key>
+            <PropertyRef Name="userLoginId" />
+          </Key>
+          <Property Name="userLoginId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="emailId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="passwd" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="userType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="isActive" Type="int" />
+        </EntityType>
+        <Association Name="FK__tbl_famil__famil__5EBF139D">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_familyRelation" Type="Self.tbl_familyRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="userLoginId" />
+            </Principal>
+            <Dependent Role="tbl_familyRelation">
+              <PropertyRef Name="familyNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_famil__famil__5FB337D6">
+          <End Role="tbl_Family" Type="Self.tbl_Family" Multiplicity="1" />
+          <End Role="tbl_familyRelation" Type="Self.tbl_familyRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Family">
+              <PropertyRef Name="familyMemberId" />
+            </Principal>
+            <Dependent Role="tbl_familyRelation">
+              <PropertyRef Name="familyMemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FamilyTreeModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Family" EntityType="Self.tbl_Family" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_familyRelation" EntityType="Self.tbl_familyRelation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_User" EntityType="Self.tbl_User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tbl_famil__famil__5EBF139D" Association="Self.FK__tbl_famil__famil__5EBF139D">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_familyRelation" EntitySet="tbl_familyRelation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_famil__famil__5FB337D6" Association="Self.FK__tbl_famil__famil__5FB337D6">
+            <End Role="tbl_Family" EntitySet="tbl_Family" />
+            <End Role="tbl_familyRelation" EntitySet="tbl_familyRelation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FamilyTreeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_Family">
+          <Key>
+            <PropertyRef Name="familyMemberId" />
+          </Key>
+          <Property Name="familyMemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="suffix" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="firstName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="middleName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="lastName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dob" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="gender" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="memberCategory" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_familyRelation" Relationship="Self.FK__tbl_famil__famil__5FB337D6" FromRole="tbl_Family" ToRole="tbl_familyRelation" />
+        </EntityType>
+        <EntityType Name="tbl_familyRelation">
+          <Key>
+            <PropertyRef Name="familyRelationId" />
+          </Key>
+          <Property Name="familyRelationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="familyNo" Type="Int32" Nullable="false" />
+          <Property Name="familyMemId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_Family" Relationship="Self.FK__tbl_famil__famil__5FB337D6" FromRole="tbl_familyRelation" ToRole="tbl_Family" />
+          <NavigationProperty Name="tbl_User" Relationship="Self.FK__tbl_famil__famil__5EBF139D" FromRole="tbl_familyRelation" ToRole="tbl_User" />
+        </EntityType>
+        <EntityType Name="tbl_User">
+          <Key>
+            <PropertyRef Name="userLoginId" />
+          </Key>
+          <Property Name="userLoginId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="emailId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="passwd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="userType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isActive" Type="Int32" />
+          <NavigationProperty Name="tbl_familyRelation" Relationship="Self.FK__tbl_famil__famil__5EBF139D" FromRole="tbl_User" ToRole="tbl_familyRelation" />
+        </EntityType>
+        <Association Name="FK__tbl_famil__famil__5FB337D6">
+          <End Role="tbl_Family" Type="Self.tbl_Family" Multiplicity="1" />
+          <End Role="tbl_familyRelation" Type="Self.tbl_familyRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Family">
+              <PropertyRef Name="familyMemberId" />
+            </Principal>
+            <Dependent Role="tbl_familyRelation">
+              <PropertyRef Name="familyMemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_famil__famil__5EBF139D">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_familyRelation" Type="Self.tbl_familyRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="userLoginId" />
+            </Principal>
+            <Dependent Role="tbl_familyRelation">
+              <PropertyRef Name="familyNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FamilyTreeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="tbl_Family" EntityType="Self.tbl_Family" />
+          <EntitySet Name="tbl_familyRelation" EntityType="Self.tbl_familyRelation" />
+          <EntitySet Name="tbl_User" EntityType="Self.tbl_User" />
+          <AssociationSet Name="FK__tbl_famil__famil__5FB337D6" Association="Self.FK__tbl_famil__famil__5FB337D6">
+            <End Role="tbl_Family" EntitySet="tbl_Family" />
+            <End Role="tbl_familyRelation" EntitySet="tbl_familyRelation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_famil__famil__5EBF139D" Association="Self.FK__tbl_famil__famil__5EBF139D">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_familyRelation" EntitySet="tbl_familyRelation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FamilyTreeModelStoreContainer" CdmEntityContainer="FamilyTreeEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="FamilyTreeModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Family">
+            <EntityTypeMapping TypeName="FamilyTreeModel.tbl_Family">
+              <MappingFragment StoreEntitySet="tbl_Family">
+                <ScalarProperty Name="familyMemberId" ColumnName="familyMemberId" />
+                <ScalarProperty Name="suffix" ColumnName="suffix" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="middleName" ColumnName="middleName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="memberCategory" ColumnName="memberCategory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_familyRelation">
+            <EntityTypeMapping TypeName="FamilyTreeModel.tbl_familyRelation">
+              <MappingFragment StoreEntitySet="tbl_familyRelation">
+                <ScalarProperty Name="familyRelationId" ColumnName="familyRelationId" />
+                <ScalarProperty Name="familyNo" ColumnName="familyNo" />
+                <ScalarProperty Name="familyMemId" ColumnName="familyMemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_User">
+            <EntityTypeMapping TypeName="FamilyTreeModel.tbl_User">
+              <MappingFragment StoreEntitySet="tbl_User">
+                <ScalarProperty Name="userLoginId" ColumnName="userLoginId" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="emailId" ColumnName="emailId" />
+                <ScalarProperty Name="passwd" ColumnName="passwd" />
+                <ScalarProperty Name="userType" ColumnName="userType" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

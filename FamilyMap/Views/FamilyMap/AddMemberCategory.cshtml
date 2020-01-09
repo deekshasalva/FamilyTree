@@ -1,0 +1,164 @@
+﻿@model List<FamilyMapWCFService.WCP_Family>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<select id="familyMember" required>
+    @foreach (var item in Model)
+    {
+        <option value="@item.firstName">@item.firstName  &nbsp; @item.lastName</option>
+    }
+</select>
+<select id="relation" required>
+    <option value="familyHead">Family Head</option>
+    <option value="wife">Wife</option>
+    <option value="son">Son</option>
+    <option value="daughter">Daughter</option>
+</select>
+
+ &nbsp;  &nbsp;
+<button type="button" class="btn btn-primary" onclick="AddRelation()">Submit</button>
+<div class="col-md-6">
+    <button type="button" class="btn btn-primary" onclick="Back()">Back</button>
+    <button type="button" class=" btn btn-primary" onclick="Next()">Next</button>
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+    // $('label[for="memeberid"]').css('display', 'none');
+
+    function AddRelation() {
+        debugger;
+        var familyMember = document.getElementById("familyMember");
+        var relation = document.getElementById("relation");
+
+
+        var Relation = {
+            member: familyMember.options[familyMember.selectedIndex].value,
+            category: relation.options[relation.selectedIndex].value,
+
+        }
+
+        $.ajax({
+            url: 'http://localhost:52522/FamilyMap/AddMemberCategory?member=' + Relation.member + '&category=' + Relation.category,
+            //is this line right
+            data: JSON.stringify(Relation),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 'success') {
+                    window.location.href = 'http://localhost:52522/FamilyMap/AddMemberCategory'
+                } else {
+
+                    alert(data.message)
+                }
+            }
+        });
+    }
+</script>
+
+
+@*@model IEnumerable<FamilyMap.Models.Family>
+
+    @{
+        ViewBag.Title = "AddMemberCategory";
+    }
+
+    <h2>AddMemberCategory</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.familyMemberId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.suffix)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.firstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.middleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.lastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dob)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.memberCategory)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.familyMemberId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.suffix)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.firstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.middleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dob)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.memberCategory)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+
+    </table>*@
+
+
+@*@model IEnumerable<FamilyMap.Models.Family>
+
+    <html>
+    <body>
+
+        @foreach (var item in Model)
+        {
+
+            <label>Relationship to Member @Html.DisplayNameFor(model => item.firstName)</label>
+            <select>
+                <option value="self" id="self">self</option>
+                <option value="husband" id="husband">Husband</option>
+                <option value="wife" id="wife">wife</option>
+                <option value="father" id="father">Father</option>
+                <option value="mother" id="mother">Mother</option>
+                <option value="brother" id="brother">Brother</option>
+                <option value="sister" id="sister">Sister</option>
+                <option value="son" id="son">son</option>
+                <option value="daughter" id="daughter">Daughter</option>
+            </select>
+
+        }
+
+    </body>
+    </html>*@
+

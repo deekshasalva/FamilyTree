@@ -1,0 +1,51 @@
+﻿@model FamilyMap.Models.User
+@{
+    Layout = "";
+}
+
+
+@using (Html.BeginForm("Login", "User", FormMethod.Post))
+{
+    <fieldset style="border:solid;color:green; width: 400px;margin: 0 auto;">
+        <legend style="align-content:center;margin:auto">Family Tree Login Form</legend>
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @if (@ViewBag.Message != null)
+        {
+            <div style="border: 1px solid red">
+               
+            </div>
+        }
+        <table align="center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+            <tr>
+                <td><label>User Name</label></td>
+                <td>@Html.TextBoxFor(a => a.userName)</td>
+                <td>@Html.ValidationMessageFor(a => a.userName)</td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Password</label>
+                </td>
+                <td>
+                    @Html.PasswordFor(a => a.passwd)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(a => a.passwd)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" value="Login" />
+                </td>
+                <td></td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <div style="width:400px;margin:0 auto">
+        @Html.ActionLink("New User Register here", "Register")
+    </div>
+}
+

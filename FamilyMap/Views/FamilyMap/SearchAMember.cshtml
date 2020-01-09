@@ -1,0 +1,100 @@
+﻿@*@model FamilyMap.Models.Family
+@{
+    Layout = null;
+}
+<script src="//code.jquery.com/jquery-1.12.3.js"></script>
+<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<h2>SearchAMember</h2>
+<link href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
+<div>
+    <table class="table" id="tblfamilyMember">
+        <thead>
+            <tr>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    Date of Birth
+                </th>
+                <th>
+                    Application Id
+                </th>
+
+            </tr>
+            <tr>
+                <td>
+                    <input type="text"/>
+                </td>
+                <td>
+                    <input type="text" />
+                </td>
+                <td>
+                    <input type="text" />
+                </td>
+                <td>
+                    <input type="text" />
+                </td>
+            </tr>
+
+        </thead>
+    </table>
+</div>
+
+
+@section Scripts {
+    <script src="//code.jquery.com/jquery-1.12.3.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $.ajax({
+
+                url: '/FamilyMap/getMemberData',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: {},
+                success: function (data) {
+                    var tr;
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        tr = tr + "<tr>";
+                        tr = tr + "<td>" + data[i].Rank + "</td>";
+                        tr = tr + "<td>" + data[i].CountryName + "</td>";
+                        tr = tr + "<td>" + data[i].population + "</td>";
+                        tr = tr + "</tr>";
+                    }
+                    $('#tblfamilyMember').append(tr);
+                    tblFormate();
+                },
+                error: function (xhr) {
+                    alert('No Valid Data');
+                }
+            });
+
+            function tblFormate() {
+
+                var table = $('#tblfamilyMember').DataTable(
+                    {
+                        //"searching": false,
+                        "lengthMenu": [[5, 10, 50, 100, 150, -1], [5, 10, 50, 100, 150, "All"]]
+                    });
+                //Apply the search
+                table.columns().eq(0).each(function (colIdx) {
+                    $('input', table.column(colIdx).header()).on('keyup change', function () {
+                        table
+                            .column(colIdx)
+                            .search(this.value)
+                            .draw();
+                    });
+                });
+            }
+
+        });
+    </script>
+}*@
+
+

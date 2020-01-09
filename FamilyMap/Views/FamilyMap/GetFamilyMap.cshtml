@@ -1,0 +1,33 @@
+﻿
+@model IEnumerable<FamilyMapWCFService.WCP_Family>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@foreach (var item in Model)
+{
+
+    <div class="col-md-6">
+        <div class="row">
+            @if (item.suffix == "Mr")
+            {
+                <img src="~/images/man.png" alt="man Image" />
+            }
+            else
+            {
+                <img src="~/images/woman.png" alt="woman image" />
+            }
+        </div>
+        <div class="row">
+            <label>@Html.DisplayFor(modelItem => item.suffix).@Html.DisplayFor(modelItem => item.firstName) @Html.DisplayFor(modelItem => item.middleName) @Html.DisplayFor(modelItem => item.lastName)</label>
+        </div>
+        <div class="row">
+            <label>BORN:</label> @Html.DisplayFor(modelItem => item.dob)
+        </div>
+        <div>
+            <label>@Html.DisplayFor(modelItem => item.memberCategory)</label>
+        </div>
+    </div>
+
+}
+
