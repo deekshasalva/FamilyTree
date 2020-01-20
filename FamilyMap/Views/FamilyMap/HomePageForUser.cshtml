@@ -1,18 +1,25 @@
-﻿
-<button type="button" class="btn btn-primary" onclick="CreateApplication()">Create Application</button>
+﻿<div></div>
+<br />
+<br />
+<br />
+<br />
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+
+<div style="align-content:center">
+    <button type="button" class="btn btn-primary" onclick="CreateApplication()">Create Application</button> 
+</div>
+
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 
 <script>
-    $.ajax({
-        url: 'http://localhost:52522/FamilyMap/AddFamilyMember',
-        type: "GET",
-        success: function () {
-
-        },
-        error: function () {
-            alert("Something went wrong");
-        }
-    });
+    function CreateApplication()
+    {
+        window.location = 'http://localhost:52522/FamilyMap/AddFamilyMember';
+    }
 </script>
 

@@ -1,13 +1,22 @@
 ﻿@model List<FamilyMapWCFService.WCP_Family>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+   
 }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+<br />
+<br />
+<br />
 <select id="familyMember" required>
     @foreach (var item in Model)
     {
         <option value="@item.firstName">@item.firstName  &nbsp; @item.lastName</option>
     }
 </select>
+&nbsp;&nbsp;
 <select id="relation" required>
     <option value="familyHead">Family Head</option>
     <option value="wife">Wife</option>
@@ -25,8 +34,7 @@
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script>
     // $('label[for="memeberid"]').css('display', 'none');
-    function Next()
-    {
+    function Next() {
         window.location.href = 'http://localhost:52522/FamilyMap/DownloadFamilyMap';
     }
 
@@ -59,7 +67,7 @@
                     }
                 }
                 else {
-                    window.location.href='http://localhost:52522/FamilyMap/DownloadFamilyMap'
+                    window.location.href = 'http://localhost:52522/FamilyMap/DownloadFamilyMap'
                 }
             }
         });

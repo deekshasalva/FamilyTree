@@ -189,7 +189,7 @@ namespace FamilyMapWCFService
             WCP_Family familyobj = new WCP_Family();
             familyobj.suffix = item.suffix.ToUpper();
             familyobj.firstName = item.firstName.ToUpper();
-            familyobj.middleName = item.middleName.ToUpper();
+                familyobj.middleName = item.middleName;
             familyobj.lastName = item.lastName.ToUpper();
             familyobj.dob = item.dob;
             familyobj.gender = item.gender.ToUpper();

@@ -18,23 +18,21 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-               FAMILYTREE
+                <label style="color:white">FAMILYTREE</label>
                 <span class="glyphicon-home"></span>
             </div>
 
             @if (@Session["UserID"].ToString() != null)
             {
-              
-                <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-3">
-                       <ul style="color:white">Welcome @Session["UserName"]</ul>
-                    </div>
-                    <div class="col-md-3">
-                        <ul>@Html.ActionLink("Logout", "Logout", "User")</ul> 
-                    </div>
 
-                </div>
+                <ul class="nav navbar-nav">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" style="color:white">
+                  Welcome @Session["UserName"] &nbsp;&nbsp; @Html.ActionLink("Logout", "Logout", "User")
+                </ul>
             }
 
 
