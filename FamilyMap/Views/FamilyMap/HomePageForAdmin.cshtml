@@ -1,34 +1,26 @@
 ﻿<button type="button" class="btn btn-primary" onclick="CreateApplication()">Create Application</button>
-<button type="button" class="btn btn-primary" onclick="SearchApplication()">Create Application</button>
+<button type="button" class="btn btn-primary" onclick="SearchApplication()">Search Application</button>
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 
 <script>
     function CreateApplication()
     {
-        $.ajax({
-            url: 'http://localhost:52522/FamilyMap/AddFamilyMember',
-            type: "GET",
-            success: function () {
+        window.location = 'http://localhost:52522/FamilyMap/AddFamilyMember';
+        //$.ajax({
+        //    url: 'http://localhost:52522/FamilyMap/AddFamilyMember',
+        //    type: "GET",
+        //    success: function () {
 
-            },
-            error: function () {
-                alert("Something went wrong");
-            }
-        });
+        //    },
+        //    error: function () {
+        //        alert("Something went wrong");
+        //    }
+        //});
     }
 
     function SearchApplication() {
-        $.ajax({
-          @*  url: 'http://localhost:52522/FamilyMap/AddFamilyMember',*@
-            type: "GET",
-            success: function () {
-
-            },
-            error: function () {
-                alert("Something went wrong");
-            }
-        });
+        window.location = 'http://localhost:52522/FamilyMap/SearchFamilyMember';
     }
-</script>;
+</script>
 

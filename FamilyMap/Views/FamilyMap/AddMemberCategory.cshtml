@@ -25,6 +25,10 @@
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script>
     // $('label[for="memeberid"]').css('display', 'none');
+    function Next()
+    {
+        window.location.href = 'http://localhost:52522/FamilyMap/DownloadFamilyMap';
+    }
 
     function AddRelation() {
         debugger;
@@ -46,11 +50,16 @@
             contentType: "application/json;charset=utf-8",
             dataType: "json",
             success: function (data) {
-                if (data.status == 'success') {
-                    window.location.href = 'http://localhost:52522/FamilyMap/AddMemberCategory'
-                } else {
+                if (data != null) {
+                    if (data.status == 'success') {
+                        window.location.href = 'http://localhost:52522/FamilyMap/AddMemberCategory'
+                    } else {
 
-                    alert(data.message)
+                        alert(data.message)
+                    }
+                }
+                else {
+                    window.location.href='http://localhost:52522/FamilyMap/DownloadFamilyMap'
                 }
             }
         });

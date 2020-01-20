@@ -1,100 +1,81 @@
-﻿@*@model FamilyMap.Models.Family
+﻿@model IEnumerable<FamilyMap.Models.Member>
+
 @{
-    Layout = null;
+    ViewBag.Title = "SearchAMember";
 }
-<script src="//code.jquery.com/jquery-1.12.3.js"></script>
-<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
 <h2>SearchAMember</h2>
-<link href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
-<div>
-    <table class="table" id="tblfamilyMember">
-        <thead>
-            <tr>
-                <th>
-                    First Name
-                </th>
-                <th>
-                    Last Name
-                </th>
-                <th>
-                    Date of Birth
-                </th>
-                <th>
-                    Application Id
-                </th>
 
-            </tr>
-            <tr>
-                <td>
-                    <input type="text"/>
-                </td>
-                <td>
-                    <input type="text" />
-                </td>
-                <td>
-                    <input type="text" />
-                </td>
-                <td>
-                    <input type="text" />
-                </td>
-            </tr>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.familyMemberId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.suffix)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.firstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.middleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dob)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.memberCategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.familyNo)
+        </th>
+        <th></th>
+    </tr>
 
-        </thead>
-    </table>
-</div>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.familyMemberId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.suffix)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.firstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.middleName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dob)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.gender)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.memberCategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.familyNo)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
 
-
-@section Scripts {
-    <script src="//code.jquery.com/jquery-1.12.3.js"></script>
-    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script>
-
-        $(document).ready(function () {
-            $.ajax({
-
-                url: '/FamilyMap/getMemberData',
-                dataType: "json",
-                type: "POST",
-                contentType: 'application/json; charset=utf-8',
-                data: {},
-                success: function (data) {
-                    var tr;
-                    console.log(data);
-                    for (var i = 0; i < data.length; i++) {
-                        tr = tr + "<tr>";
-                        tr = tr + "<td>" + data[i].Rank + "</td>";
-                        tr = tr + "<td>" + data[i].CountryName + "</td>";
-                        tr = tr + "<td>" + data[i].population + "</td>";
-                        tr = tr + "</tr>";
-                    }
-                    $('#tblfamilyMember').append(tr);
-                    tblFormate();
-                },
-                error: function (xhr) {
-                    alert('No Valid Data');
-                }
-            });
-
-            function tblFormate() {
-
-                var table = $('#tblfamilyMember').DataTable(
-                    {
-                        //"searching": false,
-                        "lengthMenu": [[5, 10, 50, 100, 150, -1], [5, 10, 50, 100, 150, "All"]]
-                    });
-                //Apply the search
-                table.columns().eq(0).each(function (colIdx) {
-                    $('input', table.column(colIdx).header()).on('keyup change', function () {
-                        table
-                            .column(colIdx)
-                            .search(this.value)
-                            .draw();
-                    });
-                });
-            }
-
-        });
-    </script>
-}*@
-
-
+</table>

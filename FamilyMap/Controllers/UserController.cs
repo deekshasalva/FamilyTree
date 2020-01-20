@@ -14,7 +14,6 @@ namespace FamilyMap.Controllers
 
         FamilyMapWCFService.Service1 service = new Service1();
         // GET: User
-
         
         [HttpGet]
         public ActionResult Login()
@@ -37,7 +36,14 @@ namespace FamilyMap.Controllers
                     {
                         Session["UserID"] = obj.userLoginId;
                         Session["UserName"] = obj.userName;
-                        return RedirectToAction("HomePage","Familymap");
+                        if ((int)Session["UserID"] == 1)
+                        {
+                            return RedirectToAction("HomePageForAdmin", "FamilyMap");
+                        }
+                        else
+                        {
+                            return RedirectToAction("HomePageForUser", "FamilyMap");
+                        }
                     }
 
                     else
@@ -47,6 +53,7 @@ namespace FamilyMap.Controllers
 
 
                 }
+                
             }
             return View(objUser);
         }
@@ -67,7 +74,7 @@ namespace FamilyMap.Controllers
             var data = map.Map<User, WCP_User>(user);
             int userId = service.AddUser(data);
             var urlBuilder = new UrlHelper(Request.RequestContext);
-            var url = urlBuilder.Action("HomePage", "FamilyMap");
+            var url = urlBuilder.Action("Login", "FamilyMap");
             return Json(new { status = "success", redirectUrl = url });
         }
 

@@ -18,19 +18,26 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("FamilyTree", "HomePage", "FamilyMap", new { area = "" }, new { @class = "navbar-brand" })
+               FAMILYTREE
+                <span class="glyphicon-home"></span>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @if (@Session["UserID"].ToString() !=null)
-                    {
-                        <li><label>Welcome @Session["UserName"].ToString()</label></li>
-                        <li>@Html.ActionLink("Logout", "Logout", "User")</li>
 
-                    }
+            @if (@Session["UserID"].ToString() != null)
+            {
+              
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-3">
+                       <ul style="color:white">Welcome @Session["UserName"]</ul>
+                    </div>
+                    <div class="col-md-3">
+                        <ul>@Html.ActionLink("Logout", "Logout", "User")</ul> 
+                    </div>
 
-                </ul>
-            </div>
+                </div>
+            }
+
+
         </div>
     </div>
     <div class="container body-content">

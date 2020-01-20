@@ -1,0 +1,89 @@
+﻿@model FamilyMap.Models.Family
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-1">
+        <div class="form-control">
+            <label for="name">Suffix</label>
+            <select name="suffix" id="suffix">
+                <option value="Mr">Mr</option>
+                <option value="Ms">Ms</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="name">First Name</label>
+            <input type="text" class="form-control" placeholder="First Name" id="firstName" maxlength="10" required>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="name">Middle Name</label>
+            <input type="text" class="form-control" placeholder="Middle Name" id="middleName">
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="name">Last Name</label>
+            <input type="text" class="form-control" placeholder="Last Name" id="lastName" maxlength="10" required>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="name">Date of Birth</label>
+            <input type="date" class="form-control" id="dob" maxlength="10" required>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="name">Gender</label>
+            <input type="radio" name="gender" value="male" id="male"> Male<br>
+            <input type="radio" name="gender" value="female" id="female"> Female<br>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-6">
+    <button type="button" class="btn btn-primary" onclick="Update()">Update</button>
+    
+</div>
+
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+    function Update() {
+        var MemberDetail = {
+            suffix: $('#suffix').val(),
+            firstName: $('#firstName').val(),
+            middleName: $('#middleName').val(),
+            lastName: $('#lastName').val(),
+            dob: $('#dob').val(),
+            gender: $("input:radio[name=gender]:checked").val(),
+
+        }
+
+        $.ajax({
+            url: 'http://localhost:52522/FamilyMap/Edit',
+            data: JSON.stringify(MemberDetail),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                window.location.href = 'http://localhost:52522/FamilyMap/SearchFamilyMember'
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+           
+        });
+    }
+</script>

@@ -1,7 +1,4 @@
 ﻿@model FamilyMap.Models.Family
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
 <div class="row">
     <div class="col-md-1">
         <div class="form-control">
@@ -16,7 +13,8 @@
     <div class="col-md-4">
         <div class="form-group">
             <label for="name">First Name</label>
-            <input type="text" class="form-control" placeholder="First Name" id="firstName" maxlength="10" required>
+            <input type="text" class="form-control" placeholder="First Name" id="firstName" maxlength="32" required>
+            <span id="firstNameStatus" class="mycolor"></span>
         </div>
     </div>
 
@@ -31,6 +29,7 @@
         <div class="form-group">
             <label for="name">Last Name</label>
             <input type="text" class="form-control" placeholder="Last Name" id="lastName" maxlength="10" required>
+            <span id="lastNameStatus" class="mycolor"></span>
         </div>
     </div>
 </div>
@@ -39,7 +38,7 @@
     <div class="col-md-6">
         <div class="form-group">
             <label for="name">Date of Birth</label>
-            <input type="date" class="form-control" id="dob" maxlength="10" required>
+            <input type="date" class="form-control" id="dob" min="1900-01-01" required>
         </div>
     </div>
 
@@ -64,29 +63,137 @@
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script>
-    function AddMember() {
-        var MemberDetail = {
-            suffix: $('#suffix').val(),
-            firstName: $('#firstName').val(),
-            middleName: $('#middleName').val(),
-            lastName: $('#lastName').val(),
-            dob: $('#dob').val(),
-            gender: $("input:radio[name=gender]:checked").val(),
 
+    function Next()
+    {
+        var result = validate();
+        if (result == false) {
+            alert("Something went wrong in Data!!!!! Pls check");
         }
 
-        $.ajax({
-            url: 'http://localhost:52522/FamilyMap/AddFamilyMember',
-            data: JSON.stringify(MemberDetail),
-            type: "POST",
-            contentType: "application/json;charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                window.location.href = 'http://localhost:52522/FamilyMap/AddMemberCategory'
-            },
-            error: function (data) {
-                alert(data.responseText);
+        else {
+            var MemberDetail = {
+                suffix: $('#suffix').val(),
+                firstName: $('#firstName').val(),
+                middleName: $('#middleName').val(),
+                lastName: $('#lastName').val(),
+                dob: $('#dob').val(),
+                gender: $("input:radio[name=gender]:checked").val(),
+
             }
-        });
+
+            $.ajax({
+                url: 'http://localhost:52522/FamilyMap/AddFamilyMember',
+                data: JSON.stringify(MemberDetail),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    window.location.href = 'http://localhost:52522/FamilyMap/AddMemberCategory'
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+
+    }
+
+    function SaveAndExit() {
+        var result = validate();
+        if (result == false) {
+            alert("Something went wrong in Data!!!!! Pls check");
+        }
+
+        else {
+            var MemberDetail = {
+                suffix: $('#suffix').val(),
+                firstName: $('#firstName').val(),
+                middleName: $('#middleName').val(),
+                lastName: $('#lastName').val(),
+                dob: $('#dob').val(),
+                gender: $("input:radio[name=gender]:checked").val(),
+
+            }
+
+            $.ajax({
+                url: 'http://localhost:52522/FamilyMap/AddFamilyMember',
+                data: JSON.stringify(MemberDetail),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    window.location.href = 'http://localhost:52522/FamilyMap/ShowApplicationNumber'
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+    }
+</script>
+<script>
+
+    function AddMember() {
+        var result = validate();
+        if (result == false) {
+            alert("Something went wrong in Data!!!!! Pls check");
+        }
+
+        else {
+            var MemberDetail = {
+                suffix: $('#suffix').val(),
+                firstName: $('#firstName').val(),
+                middleName: $('#middleName').val(),
+                lastName: $('#lastName').val(),
+                dob: $('#dob').val(),
+                gender: $("input:radio[name=gender]:checked").val(),
+
+            }
+
+            $.ajax({
+                url: 'http://localhost:52522/FamilyMap/AddFamilyMember',
+                data: JSON.stringify(MemberDetail),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    window.location.href = 'http://localhost:52522/FamilyMap/AddMemberCategory'
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+    }
+</script>
+
+<script type="text/javascript">
+
+    function validate() {
+        var isValid = true;
+        var firstNameVal = /^[a-zA-Z'*-]+$/;
+
+
+        /*******************FIRSTNAME VALIDATION*****************/
+        if (!$('#firstName').val().match(firstNameVal)) {
+            $('#firstName').css('border-color', 'Red');
+            $('#firstNameStatus').html("First Name can be alphabet and special character!!!").css('color', 'Red');
+            isValid = false;
+        } else {
+            $('#firstName').css('border-color', 'Green');
+            $('#firstNameStatus').html("");
+        }
+
+        /*******************LASTNAME VALIDATION*****************/
+        if (!$('#lastName').val().match(firstNameVal)) {
+            $('#lastName').css('border-color', 'Red');
+            $('#lastNameStatus').html("Last Name can be alphabet and special character!!!").css('color', 'Red');
+            isValid = false;
+        } else {
+            $('#lastName').css('border-color', 'Green');
+            $('#lastNameStatus').html("");
+        }
+        return isValid;
     }
 </script>

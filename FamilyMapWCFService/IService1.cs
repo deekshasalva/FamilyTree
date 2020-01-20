@@ -21,10 +21,17 @@ namespace FamilyMapWCFService
         List<WCP_Family> GetEntireFamily(int familyid);
 
         [OperationContract]
+        WCP_Family GetMemberDetails(int memberId);
+
+        [OperationContract]
         List<WCP_FamilyCompleteData> GetEntireMemberList(WCP_FamilyCompleteData _Family);
 
         [OperationContract]
         int AddFamilyMember(WCP_Family family);
+
+        [OperationContract]
+
+        bool UpdateFamilyMember(WCP_Family family, int id);
 
         [OperationContract]
         int AddUser(WCP_User user);

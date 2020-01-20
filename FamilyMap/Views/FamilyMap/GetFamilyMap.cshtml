@@ -1,12 +1,8 @@
-﻿
-@model IEnumerable<FamilyMapWCFService.WCP_Family>
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model IEnumerable<FamilyMapWCFService.WCP_Family>
 
 @foreach (var item in Model)
 {
-
+    <div class=" col-md-3"></div>
     <div class="col-md-6">
         <div class="row">
             @if (item.suffix == "Mr")
@@ -28,6 +24,7 @@
             <label>@Html.DisplayFor(modelItem => item.memberCategory)</label>
         </div>
     </div>
+    <div class=" col-md-3"></div>
 
 }
 
