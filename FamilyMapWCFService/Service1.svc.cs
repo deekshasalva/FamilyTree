@@ -108,12 +108,8 @@ namespace FamilyMapWCFService
             {
                 var family = familyEntity.tbl_Family.Where(obj1 =>
                                                                  familyEntity.tbl_familyRelation.Any(obj2 =>
-                                                                 obj2.familyNo == familyId && obj2.familyMemId == obj1.familyMemberId && obj1.firstName == member));
-                foreach (var item in family.ToList())
-                {
-                    item.memberCategory = category;
-                    
-                }
+                                                                 obj2.familyNo == familyId && obj2.familyMemId == obj1.familyMemberId && obj1.firstName == member)).FirstOrDefault();
+                family.memberCategory = category;
                 familyEntity.SaveChanges();
                 return true;
             }
@@ -179,24 +175,31 @@ namespace FamilyMapWCFService
 
         public List<WCP_Family> GetEntireFamily(int familyId)
         {
-            List<WCP_Family> familyList = new List<WCP_Family>();
-
-            var familyMember= familyEntity.tbl_Family.Where(obj1 =>
-                                                            familyEntity.tbl_familyRelation.Any(obj2 => 
-                                                            obj2.familyNo == familyId && obj1.familyMemberId == obj2.familyMemId));
-            foreach (var item in familyMember)
+            try
             {
-            WCP_Family familyobj = new WCP_Family();
-            familyobj.suffix = item.suffix.ToUpper();
-            familyobj.firstName = item.firstName.ToUpper();
-                familyobj.middleName = item.middleName;
-            familyobj.lastName = item.lastName.ToUpper();
-            familyobj.dob = item.dob;
-            familyobj.gender = item.gender.ToUpper();
-            familyobj.memberCategory = item.memberCategory.ToUpper();
-            familyList.Add(familyobj);
+                List<WCP_Family> familyList = new List<WCP_Family>();
+
+                var familyMember = familyEntity.tbl_Family.Where(obj1 =>
+                                                                 familyEntity.tbl_familyRelation.Any(obj2 =>
+                                                                 obj2.familyNo == familyId && obj1.familyMemberId == obj2.familyMemId));
+                foreach (var item in familyMember)
+                {
+                    WCP_Family familyobj = new WCP_Family();
+                    familyobj.suffix = item.suffix.ToUpper();
+                    familyobj.firstName = item.firstName.ToUpper();
+                    familyobj.middleName = item.middleName;
+                    familyobj.lastName = item.lastName.ToUpper();
+                    familyobj.dob = item.dob;
+                    familyobj.gender = item.gender.ToUpper();
+                    familyobj.memberCategory = item.memberCategory.ToUpper();
+                    familyList.Add(familyobj);
+                }
+                return familyList;
             }
-            return familyList;
+            catch
+            {
+                return null;
+            }
         }
 
         public WCP_Family GetMemberDetails(int memberId)
@@ -209,7 +212,7 @@ namespace FamilyMapWCFService
             return data;
 
         }
-        //
+        
         public List<WCP_FamilyCompleteData> Search(WCP_FamilyCompleteData _family)
         {
             List<WCP_FamilyCompleteData> familyList = new List<WCP_FamilyCompleteData>();
@@ -280,7 +283,29 @@ namespace FamilyMapWCFService
             return familyList;
         }
 
-       
+
+
+        public bool DeleteFamilyMember(int memberId)
+        {
+            try
+            {
+                var familyMember = familyEntity.tbl_Family.Where(obj => obj.familyMemberId == memberId).FirstOrDefault();
+                var relation = familyEntity.tbl_familyRelation.Where(obj => obj.familyMemId == memberId).FirstOrDefault();
+                if(familyMember!=null)
+                {
+                    familyEntity.tbl_Family.Remove(familyMember);
+                    familyEntity.tbl_familyRelation.Remove(relation);
+                    familyEntity.SaveChanges();
+                }
+                return true;
+            }
+
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }
 

@@ -1,61 +1,140 @@
 ﻿@model FamilyMap.Models.User
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
-{
-@Html.AntiForgeryToken()
 
-<div class="form-horizontal">
+<hr />
 
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.userLoginId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.userLoginId, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.userLoginId, "", new { @class = "text-danger" })
-        </div>
+<div class="form-group">
+    <label for="name">User Name</label>
+    <div class="col-md-10">
+        <input id="userName" class="form-control" maxlength="32" required="" type="text" placeholder="User Name" />
+        <span id="userNameStatus" class="mycolor"></span>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.userName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
-        </div>
+    <br />
+    <label for="name">Email ID</label>
+    <div class="col-md-10">
+        <input id="emailId" class="form-control" maxlength="32" required="" type="text" placeholder="Email-ID" />
+        <span id="emailIdStatus" class="mycolor"></span>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.emailId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.emailId, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.emailId, "", new { @class = "text-danger" })
-        </div>
+    <br />
+    <label for="name">Password</label>
+    <div class="col-md-10">
+        <input id="password" class="form-control" maxlength="6" required="" type="password" placeholder="Password" />
+        <span id="passwordStatus" class="mycolor"></span>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.passwd, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.passwd, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.passwd, "", new { @class = "text-danger" })
-        </div>
+    <br />
+    <label for="name">Confirm Password</label>
+    <div class="col-md-10">
+        <input id="confirmPassword" class="form-control" maxlength="6" required="" type="password" placeholder="Confirm Password" />
+        <span id="confirmPasswordStatus" class="mycolor"></span>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.userType, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.userType, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.userType, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Register" class="btn btn-default" />
-        </div>
+    <br />
+    <label for="name">User Type</label>
+    <div class="col-md-10">
+        <select id="userType" name="userType">
+            <option value="Admin">Admin</option>
+            <option value="User">User</option>
+        </select>
     </div>
 </div>
-}
+<br />
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Register" onclick="register()" class="btn btn-primary" style="color:green" />
+    </div>
+</div>
+
+
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+    function register() {
+        var result = validate();
+        if (result == false) {
+            alert("Something went wrong in Data!!!!! Pls check");
+        }
+
+        else {
+            var MemberDetail = {
+                userName: $('#userName').val(),
+                emailId: $('#emailId').val(),
+                passwd: $('#password').val(),
+                userType: $('#userType').val(),
+
+
+            }
+
+            $.ajax({
+                url: 'http://localhost:52522/User/Register',
+                data: JSON.stringify(MemberDetail),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    window.location.href = 'http://localhost:52522/User/Login'
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+    }
+</script>
+
+<script type="text/javascript">
+
+    function validate() {
+        var isValid = true;
+        var passwordVal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+        var emailVal = /^[a-zA-Z0-9]+.[a-zA-Z0-9]+@@(GMAIL|gmail|YAHOO|yahoo|MINDTREE|mindtree).(COM|com)$/;
+        var userNameVal = /^[a-zA-Z'*-]+$/;
+
+
+
+        /*******************USERNAME VALIDATION*****************/
+        if (!$('#userName').val().match(userNameVal)) {
+            $('#userName').css('border-color', 'Red');
+            $('#userNameStatus').html("UserName can contain only Alphabets and Special characters").css('color', 'Red');
+            isValid = false;
+        } else {
+            $('#userName').css('border-color', 'Green');
+            $('#userNameStatus').html("");
+        }
+
+        /*******************EMAIL-ID VALIDATION*****************/
+        if (!$('#emailId').val().match(emailVal)) {
+            $('#emailId').css('border-color', 'Red');
+            $('#emailIdStatus').html("Email should be of format 'abc@gmail.com'").css('color', 'Red');
+            isValid = false;
+        } else {
+            $('#emailId').css('border-color', 'Green');
+            $('#emailIdStatus').html("");
+        }
+
+        /***************PASSWORD VALIDATION***************/
+        if (!$('#password').val().match(passwordVal)) {
+            $('#passwors').css('border-color', 'Red');
+            $('#passwordStatus').html("Must contain at least one number and one uppercase and lowercase letter, and only 6 characters").css('color', 'Red');
+            isValid = false;
+        } else {
+            $('#password').css('border-color', 'Green');
+            $('#passwordStatus').html("");
+        }
+
+        if (!($('#confirmPassword').val() == $('#password').val())) {
+
+            $('#confirmPassword').css('border-color', 'Red');
+            $('#confirmPasswordStatus').html("Password is not Matching").css('color', 'Red');
+            isValid = false;
+        } else {
+            $('#confirmPassword').css('border-color', 'Green');
+            $('#confirmPasswordStatus').html("");
+        }
+
+        return isValid;
+    }
+</script>
 
 

@@ -177,10 +177,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\arrow.jpeg" />
     <Content Include="images\family.jpg" />
     <Content Include="images\family1.jpg" />
+    <Content Include="images\familyRelation.jpg" />
     <Content Include="images\giphy.gif" />
     <Content Include="images\man.png" />
+    <Content Include="images\man1.jpg" />
+    <Content Include="images\man2.jpg" />
     <Content Include="images\woman.png" />
     <Content Include="Rotativa\help-wkhtmltoimage.txt" />
     <Content Include="Rotativa\help-wkhtmltopdf.txt" />
@@ -237,6 +241,8 @@
     <Content Include="Views\FamilyMap\Edit.cshtml" />
     <Content Include="Views\FamilyMap\ShowApplicationNumber.cshtml" />
     <Content Include="Views\FamilyMap\DownloadFamilyMap.cshtml" />
+    <Content Include="Views\FamilyMap\RemoveFromFamily.cshtml" />
+    <Content Include="Views\FamilyMap\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

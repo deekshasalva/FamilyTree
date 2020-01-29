@@ -1,0 +1,28 @@
+﻿@model IEnumerable<FamilyMap.Models.Family>
+
+<table class="table">
+    
+@foreach (var item in Model) {
+    <tr>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.suffix)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.firstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.middleName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lastName)
+        <td>
+            @Html.DisplayFor(modelItem => item.memberCategory)
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { id=item.familyMemberId})
+        </td>
+    </tr>
+}
+
+</table>

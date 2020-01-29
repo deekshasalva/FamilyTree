@@ -34,6 +34,9 @@ namespace FamilyMapWCFService
         bool UpdateFamilyMember(WCP_Family family, int id);
 
         [OperationContract]
+        bool DeleteFamilyMember(int memberId);
+
+        [OperationContract]
         int AddUser(WCP_User user);
 
         [OperationContract]

@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<FamilyMapWCFService.WCP_Family>
 
+Here's the Family belonging to your Application Id:@Session["UserID"]
 @foreach (var item in Model)
 {
-    <div class=" col-md-3"></div>
+    
     <div class="col-md-6">
         <div class="row">
             @if (item.suffix == "Mr")
@@ -24,7 +25,7 @@
             <label>@Html.DisplayFor(modelItem => item.memberCategory)</label>
         </div>
     </div>
-    <div class=" col-md-3"></div>
+    
 
 }
 

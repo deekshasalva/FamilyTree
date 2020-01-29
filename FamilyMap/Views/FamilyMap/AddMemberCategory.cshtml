@@ -1,38 +1,298 @@
-﻿@model List<FamilyMapWCFService.WCP_Family>
+﻿@*@model List<FamilyMapWCFService.WCP_Family>
+    @{
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
+    }
+
+    <div class="row">
+
+
+        <div class="col-md-4"><img src="~/images/man1.jpg" width="154" height="253" /><img src="~/images/arrow.png" width="216" height="125" /><img src="~/images/man2.jpg" width="181" height="235" /></div>
+        <div class="col-md-4">&nbsp;</div>
+    </div>
+
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <br />
+    <br />
+    <br />
+    <select id="familyMember" required>
+        @foreach (var item in Model)
+        {
+            <option value="@item.firstName">@item.firstName  &nbsp; @item.lastName</option>
+        }
+    </select>&nbsp;
+    is the
+    &nbsp;&nbsp;
+    <select id="relation" required>
+        <option value="familyHead">Family Head</option>
+        <option value="wife">Wife</option>
+        <option value="son">Son</option>
+        <option value="daughter">Daughter</option>
+    </select>
+    in the Family
+     &nbsp;  &nbsp;
+    <button type="button" class="btn btn-primary" onclick="AddRelation()">Submit</button>
+    <div class="col-md-6">
+        <button type="button" class="btn btn-primary" onclick="Back()">Back</button>
+        <button type="button" class=" btn btn-primary" onclick="Next()">Next</button>
+    </div>
+
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script>
+        // $('label[for="memeberid"]').css('display', 'none');
+        function Next() {
+            window.location.href = 'http://localhost:52522/FamilyMap/DownloadFamilyMap';
+        }
+
+        function AddRelation() {
+            debugger;
+            var familyMember = document.getElementById("familyMember");
+            var relation = document.getElementById("relation");
+
+
+            var Relation = {
+                member: familyMember.options[familyMember.selectedIndex].value,
+                category: relation.options[relation.selectedIndex].value,
+
+            }
+
+            $.ajax({
+                url: 'http://localhost:52522/FamilyMap/AddMemberCategory?member=' + Relation.member + '&category=' + Relation.category,
+                //is this line right
+                data: JSON.stringify(Relation),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        if (data.status == 'success') {
+                            window.location.href = 'http://localhost:52522/FamilyMap/AddMemberCategory'
+                        } else {
+
+                            alert(data.message)
+                        }
+                    }
+                    else {
+                        window.location.href = 'http://localhost:52522/FamilyMap/DownloadFamilyMap'
+                    }
+                }
+            });
+        }
+    </script>*@
+
+
+@model List<FamilyMapWCFService.WCP_Family>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-   
+
 }
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-<br />
-<br />
-<br />
-<select id="familyMember" required>
+<style>
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+        /* Style the buttons that are used to open the tab content */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: #ccc;
+            }
+
+    /* Style the tab content */
+    .tab-content {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
+    .buttonclass.button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        cursor: pointer;
+    }
+
+    .buttonclass.button.btn-submit {
+        background-color: white;
+        color: black;
+        border: 2px solid #4CAF50;
+    }
+
+    .buttonclass.btn-submit:hover {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .buttonclass.btn-next {
+        background-color: white;
+        color: black;
+        border: 2px solid #008CBA;
+    }
+
+    .buttonclass.btn-next:hover {
+         background-color: #008CBA;
+         color: white;
+    }
+
+    .buttonclass.btn-back {
+        background-color: white;
+        color: black;
+        border: 2px solid #555555;
+    }
+
+    .buttonclass.btn-back {
+        background-color: #555555;
+        color: white;
+    }
+
+    
+</style>
+<div class="tab">
+
+    <button class="tablinks" onclick="openName(event,'defaultTab')" id="defaultOpen">...</button>
     @foreach (var item in Model)
     {
-        <option value="@item.firstName">@item.firstName  &nbsp; @item.lastName</option>
+        <button class="tablinks" onclick="openName(event,'@item.firstName')">@item.firstName</button>
     }
-</select>
-&nbsp;&nbsp;
-<select id="relation" required>
-    <option value="familyHead">Family Head</option>
-    <option value="wife">Wife</option>
-    <option value="son">Son</option>
-    <option value="daughter">Daughter</option>
-</select>
+    <div id="defaultTab" class="tab-content" style="align-content:center">
+        <div class="row">
+            <div class="col-md-12">
+                <br /><br /><br />  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label style="color:forestgreen;font-size:large;font:italic;text-align:center">It's time to relate people now!!!!!</label><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <img src="~/images/familyRelation.jpg" width="700" height="400" style="align-content:center">
 
- &nbsp;  &nbsp;
-<button type="button" class="btn btn-primary" onclick="AddRelation()">Submit</button>
-<div class="col-md-6">
-    <button type="button" class="btn btn-primary" onclick="Back()">Back</button>
-    <button type="button" class=" btn btn-primary" onclick="Next()">Next</button>
+
+            </div>
+        </div>
+    </div>
+    @foreach(var item in Model)
+    {
+      <div id="@item.firstName" class="tab-content" value="@item.firstName" style="align-content:center">
+    <div class="row">
+        <div class="col-md-12">
+            <br /><br /><br />
+            <h1 style="font:italic,bold;align-content:center;color:brown">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label id="familyMember" value="@item.firstName">@item.firstName</label>,<select id="relation" required>
+                    <option>--SELECT--</option>
+                    <option value="familyHead"> Family Head</option>
+                    <option value="wife"> Wife</option>
+                    <option value="son"> Son</option>
+                    <option value="daughter"> Daughter</option>
+                </select> of @item.lastName.ToUpper()'s
+            </h1>
+            <br />
+        </div>
+    </div>
+    <div class="row">
+
+
+        <div class="col-md-12">
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <img src="~/images/man1.jpg" width="100" height="150" /><img src="~/images/arrow.jpeg" width="100" height="150" /><img src="~/images/man2.jpg" width="100" height="150" />
+        </div>
+        <div class="col-md-4">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            @foreach (var items in Model)
+            {
+                if (items != item)
+                {<br />
+
+                    <label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        @item.firstName is
+                        <select>
+                            <option>--select--</option>
+                            <option>wife</option>
+                            <option>Husband</option>
+                            <option>Father</option>
+                            <option>Mother</option>
+                            <option>son</option>
+                            <option>Daughter</option>
+                            <option>Brother</option>
+                            <option>Sister</option>
+                        </select>
+                        of @items.firstName
+                    </label>
+                }
+            }
+        </div>
+    </div>
+    &nbsp;  &nbsp;
+    <div class="row">
+        <div class="col-md-12">
+            <div class="buttonclass">
+                <button type="button" class="btn-submit" onclick="AddRelation()">Submit</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn-back" onclick="Back()">Back</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class=" btn-next" onclick="Next()">Next</button>
+            </div>
+        </div>
+     </div>
+   
+  </div>
+   
+}
+
+
 </div>
-
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script>
+    
+    document.getElementById("defaultOpen").click();
+    function openName(evt, firstName) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(firstName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
     // $('label[for="memeberid"]').css('display', 'none');
     function Next() {
         window.location.href = 'http://localhost:52522/FamilyMap/DownloadFamilyMap';
@@ -40,12 +300,12 @@
 
     function AddRelation() {
         debugger;
-        var familyMember = document.getElementById("familyMember");
+        
         var relation = document.getElementById("relation");
 
 
         var Relation = {
-            member: familyMember.options[familyMember.selectedIndex].value,
+            member: document.getElementById("familyMember").textContent,
             category: relation.options[relation.selectedIndex].value,
 
         }
@@ -61,6 +321,7 @@
                 if (data != null) {
                     if (data.status == 'success') {
                         window.location.href = 'http://localhost:52522/FamilyMap/AddMemberCategory'
+                        window.location.reload();
                     } else {
 
                         alert(data.message)
@@ -74,108 +335,4 @@
     }
 </script>
 
-
-@*@model IEnumerable<FamilyMap.Models.Family>
-
-    @{
-        ViewBag.Title = "AddMemberCategory";
-    }
-
-    <h2>AddMemberCategory</h2>
-
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.familyMemberId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.suffix)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.firstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.middleName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.lastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.dob)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.memberCategory)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.familyMemberId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.suffix)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.firstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.middleName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.lastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.dob)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.gender)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.memberCategory)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
-        }
-
-    </table>*@
-
-
-@*@model IEnumerable<FamilyMap.Models.Family>
-
-    <html>
-    <body>
-
-        @foreach (var item in Model)
-        {
-
-            <label>Relationship to Member @Html.DisplayNameFor(model => item.firstName)</label>
-            <select>
-                <option value="self" id="self">self</option>
-                <option value="husband" id="husband">Husband</option>
-                <option value="wife" id="wife">wife</option>
-                <option value="father" id="father">Father</option>
-                <option value="mother" id="mother">Mother</option>
-                <option value="brother" id="brother">Brother</option>
-                <option value="sister" id="sister">Sister</option>
-                <option value="son" id="son">son</option>
-                <option value="daughter" id="daughter">Daughter</option>
-            </select>
-
-        }
-
-    </body>
-    </html>*@
 
