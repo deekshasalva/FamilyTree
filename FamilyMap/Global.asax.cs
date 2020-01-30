@@ -16,6 +16,7 @@ namespace FamilyMap
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ControllerBuilder.Current.SetControllerFactory(new FamilyMap.Custom.FamilyMapControllerFactory());
         }
     }
 }

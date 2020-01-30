@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<FamilyMapWCFService.WCP_Family>
 
-Here's the Family belonging to your Application Id:@Session["UserID"]
+Here's the Family belonging to your Application Id:@HttpContext.Current.Session["UserID"]
 @foreach (var item in Model)
 {
     

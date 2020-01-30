@@ -148,6 +148,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Custom\CustomDateTimeConverter.cs" />
+    <Compile Include="Custom\FamilyMapControllerFactory.cs" />
     <Compile Include="Custom\ISessionInterface.cs" />
     <Compile Include="Custom\Login.cs" />
     <Compile Include="Custom\Register.cs" />
@@ -185,6 +186,7 @@
     <Content Include="images\man.png" />
     <Content Include="images\man1.jpg" />
     <Content Include="images\man2.jpg" />
+    <Content Include="images\oops.jpg" />
     <Content Include="images\woman.png" />
     <Content Include="Rotativa\help-wkhtmltoimage.txt" />
     <Content Include="Rotativa\help-wkhtmltopdf.txt" />
@@ -243,6 +245,7 @@
     <Content Include="Views\FamilyMap\DownloadFamilyMap.cshtml" />
     <Content Include="Views\FamilyMap\RemoveFromFamily.cshtml" />
     <Content Include="Views\FamilyMap\Delete.cshtml" />
+    <Content Include="Views\FamilyMap\ExceptionPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

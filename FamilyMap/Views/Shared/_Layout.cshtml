@@ -22,7 +22,7 @@
                 <span class="glyphicon-home"></span>
             </div>
 
-            @if (@Session["UserID"].ToString() != null)
+            @if (@HttpContext.Current.Session["UserID"].ToString() != null)
             {
 
                 <ul class="nav navbar-nav">
@@ -31,7 +31,7 @@
                     <li></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" style="color:white">
-                  Welcome @Session["UserName"] &nbsp;&nbsp;&nbsp; @Html.ActionLink("Logout", "Logout", "User")
+                  Welcome @HttpContext.Current.Session["UserName"] &nbsp;&nbsp;&nbsp; @Html.ActionLink("Logout", "Logout", "User")
                 </ul>
             }
 

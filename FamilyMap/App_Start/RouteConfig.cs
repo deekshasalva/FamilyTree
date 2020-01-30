@@ -20,6 +20,18 @@ namespace FamilyMap
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "User", action = "Login", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+            name: "FamilyMapAdmin",
+            url: "students/{action}",
+            defaults: new { controller = "FamilyMap", action = "HomePageForAdmin" }
+        );
+
+            routes.MapRoute(
+            name: "FamilyMapUser",
+            url: "students/{action}",
+            defaults: new { controller = "FamilyMap", action = "HomePageForUser" }
+        );
         }
     }
 }
